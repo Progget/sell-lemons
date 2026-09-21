@@ -594,11 +594,11 @@ local Window = WindUI:CreateWindow({
     Icon = "leaf",
     Author = "Sell Lemons",
     Folder = "PatchHub",
-    Size = UDim2.fromOffset(300, 400),
+    Size = UDim2.fromOffset(420, 480), -- compacto pero deja lugar a la sidebar
     Transparent = true,
     Theme = "Dark",
     Resizable = false,
-    SideBarWidth = 0,
+    SideBarWidth = 130, -- sidebar angosta, NO en 0 (eso rompe la navegación)
 })
 
 local FarmTab  = Window:Tab({ Title = "Farm", Icon = "sprout" })
@@ -606,31 +606,34 @@ local BonusTab = Window:Tab({ Title = "Bonus", Icon = "gift" })
 local StatsTab = Window:Tab({ Title = "Stats", Icon = "bar-chart-2" })
 local SettTab  = Window:Tab({ Title = "Settings", Icon = "settings" })
 
-FarmTab:Toggle({ Title = "Auto Buy Upgrades",   Default = false, Callback = function(v) ENABLED.AutoBuyUpgrades   = v end })
-FarmTab:Toggle({ Title = "Auto Click Income",   Default = false, Callback = function(v) ENABLED.AutoClick         = v end })
-FarmTab:Toggle({ Title = "Auto Upgrade Stands", Default = false, Callback = function(v) ENABLED.AutoUpgradeStands = v end })
-FarmTab:Toggle({ Title = "Auto Collect Fruit",  Default = false, Callback = function(v) ENABLED.AutoCollectFruit  = v end })
-FarmTab:Toggle({ Title = "Auto Collect Drops",  Default = false, Callback = function(v) ENABLED.AutoCollectDrops  = v end })
-FarmTab:Toggle({ Title = "Auto Cash Vine",      Default = false, Callback = function(v) ENABLED.AutoCashVine      = v end })
+-- Farm tab
+FarmTab:Toggle({ Title = "Auto Buy Upgrades",   Value = false, Callback = function(v) ENABLED.AutoBuyUpgrades   = v end })
+FarmTab:Toggle({ Title = "Auto Click Income",   Value = false, Callback = function(v) ENABLED.AutoClick         = v end })
+FarmTab:Toggle({ Title = "Auto Upgrade Stands", Value = false, Callback = function(v) ENABLED.AutoUpgradeStands = v end })
+FarmTab:Toggle({ Title = "Auto Collect Fruit",  Value = false, Callback = function(v) ENABLED.AutoCollectFruit  = v end })
+FarmTab:Toggle({ Title = "Auto Collect Drops",  Value = false, Callback = function(v) ENABLED.AutoCollectDrops  = v end })
+FarmTab:Toggle({ Title = "Auto Cash Vine",      Value = false, Callback = function(v) ENABLED.AutoCashVine      = v end })
 FarmTab:Toggle({
     Title = "Auto Phone Offer",
-    Default = false,
+    Value = false,
     Callback = function(v)
         ENABLED.AutoPhoneOffer = v
         if v and activeOffer then offerHandled = false respondToOffer() end
     end,
 })
-FarmTab:Toggle({ Title = "Auto Rebirth",       Default = false, Callback = function(v) ENABLED.AutoRebirth      = v end })
-FarmTab:Toggle({ Title = "Auto Ascend",        Default = false, Callback = function(v) ENABLED.AutoAscend       = v end })
-FarmTab:Toggle({ Title = "Auto Evolve",        Default = false, Callback = function(v) ENABLED.AutoEvolve       = v end })
-FarmTab:Toggle({ Title = "Auto Power Upgrade", Default = false, Callback = function(v) ENABLED.AutoPowerUpgrade = v end })
+FarmTab:Toggle({ Title = "Auto Rebirth",       Value = false, Callback = function(v) ENABLED.AutoRebirth      = v end })
+FarmTab:Toggle({ Title = "Auto Ascend",        Value = false, Callback = function(v) ENABLED.AutoAscend       = v end })
+FarmTab:Toggle({ Title = "Auto Evolve",        Value = false, Callback = function(v) ENABLED.AutoEvolve       = v end })
+FarmTab:Toggle({ Title = "Auto Power Upgrade", Value = false, Callback = function(v) ENABLED.AutoPowerUpgrade = v end })
 
-BonusTab:Toggle({ Title = "Auto Double Offline Cash", Default = false, Callback = function(v) ENABLED.AutoOfflineCash = v end })
-BonusTab:Toggle({ Title = "Auto Use Time Cash",       Default = false, Callback = function(v) ENABLED.AutoTimeCash    = v end })
-BonusTab:Toggle({ Title = "Auto Use Earner Boost",    Default = false, Callback = function(v) ENABLED.AutoEarnerBoost = v end })
-BonusTab:Toggle({ Title = "Auto Minigame Race",       Default = false, Callback = function(v) ENABLED.AutoMinigameRace  = v end })
-BonusTab:Toggle({ Title = "Auto Minigame Trade",      Default = false, Callback = function(v) ENABLED.AutoMinigameTrade = v end })
+-- Bonus tab
+BonusTab:Toggle({ Title = "Auto Double Offline Cash", Value = false, Callback = function(v) ENABLED.AutoOfflineCash = v end })
+BonusTab:Toggle({ Title = "Auto Use Time Cash",       Value = false, Callback = function(v) ENABLED.AutoTimeCash    = v end })
+BonusTab:Toggle({ Title = "Auto Use Earner Boost",    Value = false, Callback = function(v) ENABLED.AutoEarnerBoost = v end })
+BonusTab:Toggle({ Title = "Auto Minigame Race",       Value = false, Callback = function(v) ENABLED.AutoMinigameRace  = v end })
+BonusTab:Toggle({ Title = "Auto Minigame Trade",      Value = false, Callback = function(v) ENABLED.AutoMinigameTrade = v end })
 
+-- Stats tab
 local sUpg    = StatsTab:Paragraph({ Title = "Upgrades Bought", Desc = "0" })
 local sClick  = StatsTab:Paragraph({ Title = "Income Clicks",   Desc = "0" })
 local sStands = StatsTab:Paragraph({ Title = "Stands Upgraded", Desc = "0" })
@@ -666,8 +669,10 @@ task.spawn(function()
     end
 end)
 
+-- Settings tab
 SettTab:Slider({
     Title = "Fruit Sweep Delay",
+    Step = 1,
     Value = { Min = 2, Max = 30, Default = 5 },
     Callback = function(v) FRUIT_CYCLE_DELAY = v end,
 })
@@ -675,14 +680,17 @@ SettTab:Slider({
 SettTab:Dropdown({
     Title = "Phone Offer Response",
     Values = { "Accept", "Raise", "Reject" },
-    Default = "Accept",
-    Callback = function(v) PHONE_OFFER_RESPONSE = v end,
+    Value = "Accept",
+    Multi = false,
+    Callback = function(option)
+        PHONE_OFFER_RESPONSE = option
+    end,
 })
 
-SettTab:Toggle({ Title = "Anti-AFK", Default = false, Callback = function(v) ENABLED.AntiAFK = v end })
+SettTab:Toggle({ Title = "Anti-AFK", Value = false, Callback = function(v) ENABLED.AntiAFK = v end })
 SettTab:Toggle({
     Title = "Boost FPS",
-    Default = false,
+    Value = false,
     Callback = function(v)
         ENABLED.BoostFPS = v
         if v then enableFPSBoost() else disableFPSBoost() end
@@ -693,6 +701,7 @@ WindUI:Notify({
     Title = "Patch Hub",
     Content = "Loaded! Made by the goat patch himself.",
     Duration = 5,
+    Icon = "leaf",
 })
 
 task.spawn(runAutoUpgrades)
