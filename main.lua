@@ -599,11 +599,11 @@ end)
 local Window = WindUI:CreateWindow({
     Title = "Lola te extraño volvamos amor",
     Icon = "leaf",
-    Author = "Sell Lemons",
-    Folder = "PatchHub",
+    Author = "Bliss",
+    Folder = "Bliss",
     Size = UDim2.fromOffset(420, 480), -- compacto pero deja lugar a la sidebar
     Transparent = true,
-    Theme = "Dark",
+    Theme = "NuevaChicago",
     Resizable = false,
     SideBarWidth = 130, -- sidebar angosta, NO en 0 (eso rompe la navegación)
 })
