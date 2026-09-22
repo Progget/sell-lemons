@@ -590,7 +590,7 @@ end)
 -- ============================
 
 local Window = WindUI:CreateWindow({
-    Title = "Patch Hub",
+    Title = "Lola te extraño volvamos amor",
     Icon = "leaf",
     Author = "Sell Lemons",
     Folder = "PatchHub",
