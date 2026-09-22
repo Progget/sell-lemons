@@ -1,5 +1,12 @@
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
+local NuevaChicagoTheme = loadstring(game:HttpGet(
+    "https://raw.githubusercontent.com/Progget/roblox-exploiting/refs/heads/main/themes/nuevachicago.lua"
+))()
+
+WindUI:AddTheme(NuevaChicagoTheme)
+WindUI:SetTheme("NuevaChicago")
+
 local Players    = game:GetService("Players")
 local workspace  = game:GetService("Workspace")
 local RunService = game:GetService("RunService")
